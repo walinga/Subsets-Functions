@@ -1,27 +1,39 @@
-;; The first three lines of this file were inserted by DrRacket. They record metadata
-;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname PvsNP) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+#lang racket
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-;;  P vs NP
 ;; "The Subset Problem"
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(define (subsets2 lon)
+;; Returns the subsets of lon using abstract list functions
+(define (subsets lon)
   (foldr (lambda (x y) (append (map (lambda (z) (cons x z)) y) y)) '(()) lon))
 
+
+;; Returns the sum of the elements of lon
+(define (sum lon)
+    (cond
+      [(empty? lon) 0]
+      [else (+ (first lon) (sum (rest lon)))]))
+
+
+;; Returns true if any list in lol sums to zero
+(define (sub-sum-acc lol)
+    (cond
+      [(empty? lol) false]
+      [(zero? (sum (first lol))) true]
+      [else (sub-sum-acc (rest lol))]))
+
+
+;; Returns true if any subset of lon sums to 0
 (define (sub-sum-zero? lon)
-  (local
-    [(define subsets (subsets2 lon))
-     (define (sum lon)
-       (cond
-         [(empty? lon) 0]
-         [else (+ (first lon) (sum (rest lon)))]))
-     (define (sub-sum-acc lol)
-       (cond
-         [(empty? lol) false]
-         [(zero? (sum (first lol))) true]
-         [else (sub-sum-acc (rest lol))]))]
-    (sub-sum-acc subsets)))
+  (define sets (filter cons? (subsets lon)))
+  (sub-sum-acc sets))
+
+
+;(sub-sum-zero? '(1 -1))
+;(sub-sum-zero? '(25))
+;(sub-sum-zero? '(0))
+;(sub-sum-zero? '(2 3 4 5))

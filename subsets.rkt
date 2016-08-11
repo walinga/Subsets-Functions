@@ -1,12 +1,11 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname subsets) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
-;; ****************************
-;; Matthew Walinga 20627018
-;; CS135 Fall 2015
-;; Assignment 10 - Question 3
-;; Allowed Recursion
-;; ****************************
+;; ***********************************************
+;;
+;; Interesting method of finding subsets of a list
+;;
+;; ***********************************************
 
 (define (subsets1 lon)
   (subsets2 lon))
@@ -15,8 +14,9 @@
 ;; (subsets2 lon) produces a list of all subsets of lon
 ;; The procedure is as follows: (using foldr)
 ;; 1. Set the base case to (list empty)
-;; 2. Cons the last element of lon onto (list empty)
-;; 3. Append this new list to (list empty)
+;; 2. Cons the last element of lon onto each element of y (the 'so far'
+;;    list of lists)
+;; 3. Append this new list to y
 ;; 4. Repeat steps 2 and 3 using the second-last element of lon and the
 ;;    previously created list instead of (list empty)
 ;; 5. Repeat step 4 for each element in lon
